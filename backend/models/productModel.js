@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const reviewSchema = mongoose.Schema(
   {
@@ -31,11 +31,11 @@ const productSchema = mongoose.Schema(
       required: true,
     },
     category: {
-      type: Boolean,
+      type: String,
       required: true,
     },
     description: {
-      type: Boolean,
+      type: String,
       required: true,
     },
     review: [reviewSchema],
