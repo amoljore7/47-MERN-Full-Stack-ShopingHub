@@ -30,7 +30,7 @@ const OrderScreen = ({ match, history }) => {
   const { loading: loadingPay, success: successPay } = orderPay;
 
   const orderDeliver = useSelector((state) => state.orderDeliver);
-  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
+  // const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -50,17 +50,17 @@ const OrderScreen = ({ match, history }) => {
     if (!userInfo) {
       history.push("/login");
     }
-    useEffect(() => {
-      if (!order || order._id !== orderId) {
-        dispatch(getOrderDefails(orderId));
-      }
-    }, [order, orderId]);
+    // useEffect(() => {
+    //   if (!order || order._id !== orderId) {
+    //     dispatch(getOrderDefails(orderId));
+    //   }
+    // }, [order, orderId]);
 
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get("/api/config/paypal");
       const script = document.createElement("script");
       script.type = "text/javascript";
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+      script.src = `https://paypal.com/sdk/js?client-id=${clientId}`;
       script.async = true;
       script.onload = () => {
         setSdkReady(true);
@@ -68,7 +68,7 @@ const OrderScreen = ({ match, history }) => {
       document.body.appendChild(script);
     };
 
-    if (!order || successPay || successDeliver || order._id !== orderId) {
+    if (!order || successPay || order._id !== orderId) {
       dispatch({ type: ORDER_PAY_RESET });
       dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(orderId));
@@ -79,7 +79,7 @@ const OrderScreen = ({ match, history }) => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderId, successPay, successDeliver, order]);
+  }, [dispatch, orderId, successPay, order]);
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult);
@@ -213,7 +213,7 @@ const OrderScreen = ({ match, history }) => {
                   )}
                 </ListGroup.Item>
               )}
-              {loadingDeliver && <Loader />}
+              {/* {loadingDeliver && <Loader />} */}
               {userInfo &&
                 userInfo.isAdmin &&
                 order.isPaid &&
